@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Administración</title>
+    <link rel="stylesheet" href="Administracion.css" />
+    <script src="administracion.js"></script>
+  </head>
+  <body>
+    <header class="encabezado-principal">
+      <h1>Panel de administración</h1>
+    </header>
+    <main>
+      <section class="resumen">
+        <h2 id="titulo-resumen">Resumen general</h2>
+        <article class="tarjeta">
+          <p id="cant-materiales">-</p>
+        </article>
+        <article class="tarjeta">
+          <h3 id="titulo-proyectos">Proyectos activos</h3>
+          <ul class="lista-proyectos"></ul>
+        </article>
+        <article class="tarjeta">
+          <h3>Valor total del stock</h3>
+          <p id="calor-total-stock">—</p>
+        </article>
+      </section>
+
+      <section class="inventario">
+        <h2 id="titulo-inventario">Stock</h2>
+        <!-- Barra de busqueda -->
+        <section
+          class="seccion-Busqueda"
+          aria-label="Controles de búsqueda y filtrado"
+        >
+          <label for="buscar-material">Buscar material</label>
+          <input
+            id="buscar-material"
+            name="buscar-material"
+            type="search"
+            placeholder="Ej.: EPS, OSB, FISCHER o código MAT-..."
+            autocomplete="off"
+          />
+
+          <label for="selector-directo">Selección rápida de material</label>
+          <select
+            id="selector-directo"
+            class="selector-material"
+            aria-label="Elegir material de la lista"
+          ></select>
+        </section>
+
+        <section class="tabla-inventario">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Material</th>
+                <th scope="col">Inicial</th>
+                <th scope="col">Compras</th>
+                <th scope="col">
+                  en uso
+                  <button
+                    type="button"
+                    id="agregar-proyecto"
+                    aria-label="Agregar proyecto"
+                  >
+                    +
+                  </button>
+                </th>
+                <th scope="col">Stock real</th>
+                <th scope="col">Costo total</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </section>
+      </section>
+    </main>
+
+    <footer>
+      <p>Gestion de Stock· Caceres - Antezana - Diaz</p>
+    </footer>
+  </body>
+</html>

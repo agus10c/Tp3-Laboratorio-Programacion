@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    /* Configuración básica de Node.js y TypeScript */
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "types": ["node"],
+
+    /* Estructura de carpetas */
+    "rootDir": "./src",
+    "outDir": "./dist",
+
+    /* Opciones recomendadas para Express */
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "verbatimModuleSyntax": false,
+    "moduleDetection": "force"
+  }
+}

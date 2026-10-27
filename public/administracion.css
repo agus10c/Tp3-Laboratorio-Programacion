@@ -1,0 +1,238 @@
+:root {
+  --azul: #016580;
+  --verde: #b2cb17;
+  --blanco: #ffffff;
+  --negro: #000000;
+  --sombra: 0 8px 22px rgb(0 0 0 / 12%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--negro);
+  background-color: var(--blanco);
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+.encabezado-principal {
+  padding: 1.5rem clamp(1rem, 5vw, 5rem);
+  color: var(--blanco);
+  background-color: var(--azul);
+  border-bottom: 5px solid var(--verde);
+}
+
+.encabezado-principal h1 {
+  max-width: 1200px;
+  margin: 0 auto;
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+}
+
+main {
+  width: min(1200px, calc(100% - 2rem));
+  margin: 2rem auto 3rem;
+}
+
+h2 {
+  color: var(--azul);
+}
+
+.resumen {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.resumen > h2 {
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.tarjeta {
+  flex: 1 1 250px;
+  padding: 1.25rem;
+  background-color: var(--blanco);
+  border: 1px solid var(--negro);
+  border-radius: 12px;
+  box-shadow: var(--sombra);
+}
+
+.tarjeta h3 {
+  margin-bottom: 0.75rem;
+  color: var(--negro);
+  font-size: 0.95rem;
+}
+
+.tarjeta > p {
+  margin-bottom: 0;
+  color: var(--azul);
+  font-size: 1.65rem;
+  font-weight: 700;
+}
+
+.lista-proyectos {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.lista-proyectos li::marker {
+  color: var(--verde);
+}
+
+.inventario {
+  padding: clamp(1rem, 3vw, 1.75rem);
+  background-color: var(--blanco);
+  border: 1px solid var(--negro);
+  border-radius: 12px;
+  box-shadow: var(--sombra);
+}
+
+.inventario h2 {
+  margin-bottom: 1.25rem;
+}
+
+.seccion-Busqueda {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+label {
+  color: var(--azul);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.tabla-inventario {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  min-width: 920px;
+  border-collapse: collapse;
+  border: 2px solid var(--negro);
+}
+
+th,
+td {
+  padding: 0.9rem 0.8rem;
+  text-align: left;
+  border: 1px solid var(--negro);
+}
+
+thead th {
+  color: var(--blanco);
+  font-size: 0.85rem;
+  white-space: nowrap;
+  background-color: var(--azul);
+}
+
+tbody th {
+  min-width: 230px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  background-color: var(--blanco);
+}
+
+tbody tr:hover th,
+tbody tr:hover td {
+  background-color: var(--verde);
+}
+
+tbody a {
+  color: var(--azul);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+tbody a:hover {
+  color: var(--negro);
+}
+
+#agregar-proyecto {
+  width: 1.6rem;
+  height: 1.6rem;
+  margin-left: 0.35rem;
+  color: var(--azul);
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  background-color: var(--verde);
+  border: 0;
+  border-radius: 50%;
+}
+
+#agregar-proyecto:hover {
+  color: var(--blanco);
+  background-color: var(--azul);
+}
+
+footer {
+  padding: 1.25rem 1rem;
+  color: var(--blanco);
+  text-align: center;
+  background-color: var(--azul);
+}
+
+footer p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* Barra de control y búsqueda */
+.seccion-Busqueda {
+  background-color: var(--blanco);
+  border: 1px solid var(--negro);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 3rem;
+  box-shadow: var(--sombra);
+}
+
+.seccion-Busqueda input,
+.seccion-Busqueda select {
+  width: 100%;
+  padding: 0.75rem 0.85rem;
+  font: inherit;
+  color: var(--negro);
+  background-color: var(--blanco);
+  border: 1px solid var(--negro);
+  border-radius: 7px;
+  margin-bottom: 0.5rem;
+}
+
+select {
+  cursor: pointer;
+}
+
+@media (max-width: 760px) {
+  main {
+    width: min(100% - 1.25rem, 1200px);
+    margin-top: 1.25rem;
+  }
+
+  .resumen {
+    flex-direction: column;
+  }
+
+  .tarjeta {
+    min-height: auto;
+  }
+
+  .inventario {
+    padding: 1rem;
+  }
+}
