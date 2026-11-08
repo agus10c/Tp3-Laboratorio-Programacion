@@ -100,14 +100,6 @@ h2 {
   margin-bottom: 1.25rem;
 }
 
-.seccion-Busqueda {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  align-items: center;
-  justify-content: space-between;
-}
-
 label {
   color: var(--azul);
   font-size: 0.9rem;
@@ -200,6 +192,11 @@ footer p {
   padding: 1.25rem;
   margin-bottom: 3rem;
   box-shadow: var(--sombra);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .seccion-Busqueda input,
