@@ -1,16 +1,14 @@
 import { Router } from "express";
-
-import { agregarMaterial } from "../controllers/materiales.controller.js";
-
 import {
+  agregarMaterial,
+  actualizarMaterial,
   obtenerMateriales,
   obtenerMaterialPorId,
-  actualizarMaterial,
-} from "../controllers/materiales.controller";
+} from "../controllers/materiales.controller.js";
 
 const router = Router();
 
-// GET /api/materiales
+// GET /api/materiales?cantidad=10&from=0
 router.get("/", obtenerMateriales);
 
 // GET /api/materiales/:id
