@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
-import Material from "../models/Material.js";
+import * as materialesService from "../services/materiales.service.js";
 
 const CAMPOS_NUMERICOS = [
   "stockInicial",
@@ -9,34 +9,32 @@ const CAMPOS_NUMERICOS = [
   "costoUnitario",
 ] as const;
 
+// Obtener todos los materiales
 export const obtenerMateriales = async (req: Request, res: Response) => {
   try {
-    const materiales = await Material.find();
-    const total = materiales.length;
+    const datos = await materialesService.obtenerMateriales();
 
-    return res.json({
-      total,
-      materiales,
-    });
+    return res.json(datos);
   } catch (error) {
     console.error(error);
+
     return res.status(500).json({
       mensaje: "Error al obtener los materiales.",
     });
   }
 };
 
+// Obtener un material por ID
 export const obtenerMaterialPorId = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-
-    if (!mongoose.isValidObjectId(id)) {
+    if (typeof id !== "string" || !mongoose.isValidObjectId(id)) {
       return res.status(400).json({
         mensaje: "El id del material no es válido.",
       });
     }
 
-    const material = await Material.findById(id);
+    const material = await materialesService.obtenerMaterialPorId(id);
 
     if (!material) {
       return res.status(404).json({
@@ -47,18 +45,20 @@ export const obtenerMaterialPorId = async (req: Request, res: Response) => {
     return res.json(material);
   } catch (error) {
     console.error(error);
+
     return res.status(500).json({
       mensaje: "Error al obtener el material.",
     });
   }
 };
 
+// Actualizar un material
 export const actualizarMaterial = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const body = req.body || {};
 
-    if (!mongoose.isValidObjectId(id)) {
+    if (typeof id !== "string" || !mongoose.isValidObjectId(id)) {
       return res.status(400).json({
         mensaje: "El id del material no es válido.",
       });
@@ -74,10 +74,7 @@ export const actualizarMaterial = async (req: Request, res: Response) => {
       }
     }
 
-    const material = await Material.findByIdAndUpdate(id, body, {
-      new: true,
-      runValidators: true,
-    });
+    const material = await materialesService.actualizarMaterial(id, body);
 
     if (!material) {
       return res.status(404).json({
@@ -88,12 +85,14 @@ export const actualizarMaterial = async (req: Request, res: Response) => {
     return res.json(material);
   } catch (error) {
     console.error(error);
+
     return res.status(500).json({
       mensaje: "Error al actualizar el material.",
     });
   }
 };
 
+// Agregar un material
 export const agregarMaterial = async (req: Request, res: Response) => {
   try {
     const body = req.body || {};
@@ -127,7 +126,8 @@ export const agregarMaterial = async (req: Request, res: Response) => {
       }
     }
 
-    const nuevoMaterial = await Material.create(body);
+    const nuevoMaterial = await materialesService.agregarMaterial(body);
+
     return res.status(201).json(nuevoMaterial);
   } catch (error) {
     console.error(error);

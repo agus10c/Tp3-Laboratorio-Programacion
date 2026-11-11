@@ -1,100 +1,97 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
-import Material from "../models/Material.js";
-import Proyecto from "../models/Proyecto.js";
+import {
+  obtenerProyectos as obtenerProyectosService,
+  obtenerProyectoPorId as obtenerProyectoPorIdService,
+  agregarProyecto as agregarProyectoService,
+  agregarMaterialAProyecto as agregarMaterialAProyectoService,
+} from "../services/proyectos.service.js";
 
+// Obtener todos los proyectos
 export const obtenerProyectos = async (req: Request, res: Response) => {
   try {
-    const proyectos = await Proyecto.find().sort({ fecha: -1 });
-    const total = proyectos.length;
+    const resultado = await obtenerProyectosService();
 
-    return res.json({
-      total,
-      proyectos,
-    });
+    return res.status(200).json(resultado);
   } catch (error) {
-    console.error(error);
+    console.error("Error al obtener los proyectos:", error);
+
     return res.status(500).json({
       mensaje: "Error al obtener los proyectos.",
     });
   }
 };
 
+// Obtener un proyecto por ID
 export const obtenerProyectoPorId = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
-    if (!mongoose.isValidObjectId(id)) {
+    // Validar ID
+    if (typeof id !== "string" || !mongoose.isValidObjectId(id)) {
       return res.status(400).json({
-        //400 bad request
-        mensaje: "El id del proyecto no es válido.",
+        mensaje: "El id del material no es válido.",
       });
     }
 
-    const proyecto = await Proyecto.findById(id);
+    const proyecto = await obtenerProyectoPorIdService(id);
 
     if (!proyecto) {
       return res.status(404).json({
-        //404 not found
         mensaje: "No se encontró el proyecto solicitado.",
       });
     }
 
-    return res.json(proyecto);
+    return res.status(200).json(proyecto);
   } catch (error) {
-    console.error(error);
+    console.error("Error al obtener el proyecto:", error);
+
     return res.status(500).json({
-      //500 internal server error
       mensaje: "Error al obtener el proyecto.",
     });
   }
 };
 
+// Agregar un proyecto
 export const agregarProyecto = async (req: Request, res: Response) => {
   try {
-    const { nombre } = req.body || {};
+    const { nombre } = req.body;
 
-    if (typeof nombre !== "string" || nombre.trim() === "") {
+    // Validar nombre
+    if (typeof nombre !== "string" || !nombre.trim()) {
       return res.status(400).json({
-        //400 bad request
-        mensaje:
-          "El campo 'nombre' es obligatorio y debe ser un texto no vacío.",
+        mensaje: "El nombre del proyecto es obligatorio.",
       });
     }
 
-    const proyecto = await Proyecto.create({
-      nombre: nombre.trim(),
-      materiales: [],
-    });
+    const proyecto = await agregarProyectoService(nombre);
 
-    return res.status(201).json(proyecto); //201 created
+    return res.status(201).json(proyecto);
   } catch (error) {
-    console.error(error);
+    console.error("Error al agregar el proyecto:", error);
 
     if (error instanceof mongoose.Error.ValidationError) {
       return res.status(400).json({
-        //400 bad request
-        mensaje: "Los datos del proyecto no son válidos.",
+        mensaje: error.message,
       });
     }
 
     return res.status(500).json({
-      //500 internal server error
-      mensaje: "Error al crear el proyecto.",
+      mensaje: "Error al agregar el proyecto.",
     });
   }
 };
 
+// Agregar un material a un proyecto
 export const agregarMaterialAProyecto = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { materialId, cantidadUsada } = req.body || {};
+    const { materialId, cantidadUsada } = req.body;
 
     // Validar ID del proyecto
-    if (!mongoose.isValidObjectId(id)) {
+    if (typeof id !== "string" || !mongoose.isValidObjectId(id)) {
       return res.status(400).json({
-        //400 bad request
-        mensaje: "El ID del proyecto no es válido.",
+        mensaje: "El id del material no es válido.",
       });
     }
 
@@ -104,61 +101,38 @@ export const agregarMaterialAProyecto = async (req: Request, res: Response) => {
       !mongoose.isValidObjectId(materialId)
     ) {
       return res.status(400).json({
-        //400 bad request
         mensaje: "El ID del material no es válido.",
       });
     }
 
-    // Validar cantidad
+    // Validar cantidad utilizada
     if (
       typeof cantidadUsada !== "number" ||
       !Number.isFinite(cantidadUsada) ||
       cantidadUsada <= 0
     ) {
       return res.status(400).json({
-        //400 bad request
-        mensaje: "La cantidad utilizada debe ser un número mayor a 0.",
+        mensaje: "La cantidad utilizada debe ser un número mayor a cero.",
       });
     }
 
-    // Buscar proyecto
-    const proyecto = await Proyecto.findById(id);
+    const proyecto = await agregarMaterialAProyectoService(
+      id,
+      materialId,
+      cantidadUsada,
+    );
 
     if (!proyecto) {
       return res.status(404).json({
-        //404 not found
-        mensaje: "No se encontró el proyecto solicitado.",
+        mensaje: "No se encontró el proyecto o el material solicitado.",
       });
     }
 
-    // Buscar material
-    const material = await Material.findById(materialId);
-
-    if (!material) {
-      return res.status(404).json({
-        //404 not found
-        mensaje: "No se encontró el material solicitado.",
-      });
-    }
-
-    // Agregar material al proyecto
-    proyecto.materiales.push({
-      material: material._id,
-      cantidadUsada,
-    });
-
-    await proyecto.save();
-
-    // Actualizar cantidad en uso del material
-    await Material.findByIdAndUpdate(materialId, {
-      $inc: { enUso: cantidadUsada },
-    });
-
-    return res.status(200).json(proyecto); //200 OK
+    return res.status(200).json(proyecto);
   } catch (error) {
-    console.error(error);
+    console.error("Error al agregar el material al proyecto:", error);
+
     return res.status(500).json({
-      //500 internal server error
       mensaje: "Error al agregar el material al proyecto.",
     });
   }
