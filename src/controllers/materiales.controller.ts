@@ -30,13 +30,13 @@ export const obtenerMaterialPorId = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
-    if (!mongoose.isValidObjectId(id)) {
-      return res.status(400).json({
-        mensaje: "El id del material no es válido.",
-      });
-    }
+    let material = null;
 
-    const material = await Material.findById(id);
+    if (mongoose.isValidObjectId(id)) {
+      material = await Material.findById(id);
+    } else {
+      material = await Material.findOne({ codigo: id });
+    }
 
     if (!material) {
       return res.status(404).json({

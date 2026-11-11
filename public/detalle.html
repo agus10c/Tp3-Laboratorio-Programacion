@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Detalle del Material - Control de Stock</title>
+    <!-- Hoja de estilos compartida con administración -->
+    <link rel="stylesheet" href="administracion.css" />
+    <!-- Estilos específicos y complementarios de detalle -->
+    <link rel="stylesheet" href="detalle.css" />
+  </head>
+  <body>
+    <!-- Encabezado Principal -->
+    <header class="encabezado-principal">
+      <div class="contenedor-cabecera">
+        <div class="titulos-cabecera">
+          <nav class="miga-de-pan" aria-label="Navegación secundaria">
+            <a
+              href="administracion.html"
+              class="enlace-volver"
+              title="Volver al panel general de administración"
+            >
+              ← Volver al Panel de Administración
+            </a>
+          </nav>
+          <h1 class="titulo-cabecera">Detalle del Material</h1>
+          <p class="subtitulo-cabecera">
+            Ficha técnica, trazabilidad y control de existencias en depósito
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- Selector Rápido de Material -->
+      <section
+        class="seccion-controles-detalle"
+        aria-label="Controles de selección directa"
+      >
+        <div class="grupo-campo-selector">
+          <label for="selector-directo">Cambiar de material:</label>
+          <select
+            id="selector-directo"
+            class="selector-material"
+            aria-label="Elegir material del catálogo"
+          >
+            <option value="" disabled selected>Cargando catálogo...</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- Mensajes de Estado (Carga / Error) -->
+      <div
+        id="mensaje-estado"
+        class="mensaje-estado oculto"
+        role="status"
+        aria-live="polite"
+      ></div>
+
+      <!-- Ficha Técnica Hero del Material Seleccionado -->
+      <section
+        class="ficha-material"
+        id="ficha-material"
+        aria-labelledby="det-nombre"
+      >
+        <div class="ficha-grid">
+          <!-- Columna Izquierda: Fotografía del Material -->
+          <div class="columna-visual">
+            <div class="contenedor-imagen">
+              <span class="insignia-imagen" id="det-insignia-cat"
+                >Categoría</span
+              >
+              <img
+                id="det-imagen"
+                src="img/EPS X 120-20.jpg"
+                alt="Fotografía del material"
+                class="imagen-producto"
+                loading="eager"
+              />
+            </div>
+          </div>
+
+          <!-- Columna Derecha: Datos Técnicos Requeridos -->
+          <div class="columna-informacion">
+            <div class="cabecera-info">
+              <div class="etiquetas-producto">
+                <span class="badge-codigo" id="det-codigo">MAT-...</span>
+                <span class="badge-categoria" id="det-categoria">Categoría</span>
+              </div>
+              <h2 id="det-nombre" class="nombre-material-destacado">
+                Cargando material...
+              </h2>
+              <p id="det-descripcion" class="descripcion-material">
+                Cargando información técnica del catálogo...
+              </p>
+            </div>
+
+            <!-- Grilla con la información técnica -->
+            <dl class="grilla-datos-tecnicos">
+              <div class="dato-caja">
+                <dt>Código interno</dt>
+                <dd id="det-codigo-val">—</dd>
+              </div>
+
+              <div class="dato-caja">
+                <dt>Categoría</dt>
+                <dd id="det-categoria-val">—</dd>
+              </div>
+
+              <div class="dato-caja ancho-completo">
+                <dt>Unidad de medida y presentación</dt>
+                <dd id="det-unidad-val">—</dd>
+              </div>
+
+              <div class="dato-caja">
+                <dt>Última fecha de conteo</dt>
+                <dd id="det-fecha-val">—</dd>
+              </div>
+
+              <div class="dato-caja">
+                <dt>Ubicación en depósito</dt>
+                <dd id="det-ubicacion-val">—</dd>
+              </div>
+
+              <div class="dato-caja">
+                <dt>Costo unitario</dt>
+                <dd id="det-costo-val">—</dd>
+              </div>
+
+              <div class="dato-caja">
+                <dt>Valor total en inventario</dt>
+                <dd id="det-valor-total-val">—</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+
+        <!-- Tarjetas de Métricas de Stock -->
+        <div
+          class="resumen-stock-detalle"
+          aria-label="Resumen de existencias de este material"
+        >
+          <!-- Stock Físico Contado -->
+          <article class="tarjeta-stock">
+            <h3>Stock físico total</h3>
+            <p class="numero-stock">
+              <span id="det-stock-fisico">—</span>
+              <span class="unidad-etiqueta" id="det-unidad-fisico"></span>
+            </p>
+            <span class="nota-stock" id="det-stock-inicial-compras"
+              >Inventario auditado</span
+            >
+          </article>
+
+          <!-- Stock Comprometido en Obras -->
+          <article class="tarjeta-stock destacado-comprometido">
+            <h3>Stock comprometido en obras</h3>
+            <p class="numero-stock">
+              <span id="det-stock-comprometido">—</span>
+              <span class="unidad-etiqueta" id="det-unidad-comprometido"></span>
+            </p>
+            <span class="nota-stock" id="det-proyectos-comprometidos"
+              >Sin proyectos asignados</span
+            >
+          </article>
+
+          <!-- Stock Disponible -->
+          <article class="tarjeta-stock destacado-disponible">
+            <h3>Stock disponible</h3>
+            <p class="numero-stock">
+              <span id="det-stock-disponible">—</span>
+              <span class="unidad-etiqueta" id="det-unidad-disponible"></span>
+            </p>
+            <span class="nota-stock"
+              >Disponible para asignación inmediata</span
+            >
+          </article>
+
+          <!-- Nivel de Disponibilidad -->
+          <article class="tarjeta-stock disponibilidad-porcentaje">
+            <h3>Disponibilidad operativa</h3>
+            <p class="numero-stock" id="det-porcentaje-disp">
+              —% disponible
+            </p>
+            <div
+              class="barra-disp-fondo"
+              role="progressbar"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="0"
+            >
+              <div
+                class="barra-disp-relleno"
+                id="det-barra-disp"
+                style="width: 0%"
+              ></div>
+            </div>
+            <span class="nota-stock">Ratio: disponible vs. total</span>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <!-- Pie de página -->
+    <footer class="pie-principal">
+      <p>Gestion de Stock · Caceres - Antezana - Diaz</p>
+      <p>
+        <a href="administracion.html" class="enlace-pie">
+          ← Volver a la Administración de Stock
+        </a>
+      </p>
+    </footer>
+
+    <!-- Script de interactividad conectado a la API de TP3 -->
+    <script src="detalle.js"></script>
+  </body>
+</html>

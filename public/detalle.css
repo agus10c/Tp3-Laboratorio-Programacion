@@ -1,0 +1,433 @@
+/* ==========================================================================
+   Detalle de Materiales - Estilos complementarios a administracion.css
+   Paleta institucional: #016580 (Azul), #B2CB17 (Verde), #FFFFFF (Blanco), #000000 (Negro)
+   ========================================================================== */
+
+/* Cabecera de la página de detalle */
+.encabezado-principal .contenedor-cabecera {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.miga-de-pan {
+  margin-bottom: 0.25rem;
+}
+
+.enlace-volver {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--blanco);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 0.45rem 0.95rem;
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 7px;
+  width: fit-content;
+  transition: all 0.2s ease;
+}
+
+.enlace-volver:hover {
+  background-color: var(--verde);
+  color: var(--negro);
+  border-color: var(--verde);
+}
+
+.titulo-cabecera {
+  margin: 0;
+  color: var(--blanco);
+  font-size: clamp(1.5rem, 3.5vw, 2.1rem);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.subtitulo-cabecera {
+  margin: 0;
+  font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+  color: #e3f2fd;
+  opacity: 0.95;
+  font-weight: 400;
+}
+
+/* Selector rápido de material */
+.seccion-controles-detalle {
+  background-color: var(--blanco);
+  border: 1px solid var(--negro);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.75rem;
+  box-shadow: var(--sombra);
+}
+
+.grupo-campo-selector {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.grupo-campo-selector label {
+  color: var(--azul);
+  font-size: 0.95rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.grupo-campo-selector select.selector-material {
+  flex: 1;
+  min-width: 250px;
+  padding: 0.65rem 0.85rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: var(--negro);
+  background-color: var(--blanco);
+  border: 1px solid var(--negro);
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.grupo-campo-selector select.selector-material:focus-visible {
+  outline: 3px solid var(--verde);
+  outline-offset: 2px;
+}
+
+/* Mensajes de estado (Cargando / Error) */
+.mensaje-estado {
+  padding: 1rem 1.25rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.mensaje-estado.cargando {
+  background-color: #e0f2fe;
+  color: #0369a1;
+  border: 1px solid #7dd3fc;
+}
+
+.mensaje-estado.error {
+  background-color: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fca5a5;
+}
+
+.oculto {
+  display: none !important;
+}
+
+/* ==========================================================================
+   Ficha Técnica Principal (Hero del Detalle)
+   ========================================================================== */
+.ficha-material {
+  background-color: var(--blanco);
+  border: 1px solid var(--negro);
+  border-radius: 12px;
+  padding: clamp(1.5rem, 3.5vw, 2.5rem);
+  margin-bottom: 2rem;
+  box-shadow: var(--sombra);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.ficha-grid {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  align-items: stretch;
+}
+
+/* Columna de la Imagen */
+.columna-visual {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.contenedor-imagen {
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+  aspect-ratio: 1 / 1;
+  background-color: #f8fafc;
+  border: 2px solid var(--negro);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.04);
+}
+
+.imagen-producto {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 1.25rem;
+}
+
+.insignia-imagen {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background-color: var(--azul);
+  color: var(--blanco);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.3rem 0.65rem;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Columna de Información Técnica */
+.columna-informacion {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.cabecera-info {
+  border-bottom: 2px solid #eef2f5;
+  padding-bottom: 1rem;
+}
+
+.etiquetas-producto {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.badge-codigo {
+  background-color: var(--azul);
+  color: var(--blanco);
+  font-family: monospace, monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+
+.badge-categoria {
+  background-color: var(--verde);
+  color: var(--negro);
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  border-radius: 4px;
+}
+
+.nombre-material-destacado {
+  margin: 0.35rem 0 0.5rem;
+  color: var(--azul);
+  font-size: clamp(1.5rem, 2.5vw, 2.1rem);
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.descripcion-material {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #444444;
+  line-height: 1.55;
+}
+
+/* Grilla de Datos Técnicos Requeridos */
+.grilla-datos-tecnicos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+  margin: 0;
+  padding: 0;
+}
+
+.dato-caja {
+  background-color: #f8fafc;
+  border: 1px solid #d1dce0;
+  border-left: 4px solid var(--azul);
+  border-radius: 6px;
+  padding: 0.75rem 0.95rem;
+}
+
+.dato-caja dt {
+  margin: 0 0 0.3rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #555555;
+}
+
+.dato-caja dd {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--negro);
+}
+
+.dato-caja.ancho-completo {
+  grid-column: 1 / -1;
+}
+
+/* ==========================================================================
+   Tarjetas de Stock
+   ========================================================================== */
+.resumen-stock-detalle {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.tarjeta-stock {
+  padding: 1.25rem;
+  background-color: var(--blanco);
+  border: 1px solid var(--negro);
+  border-radius: 10px;
+  box-shadow: var(--sombra);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 145px;
+}
+
+.tarjeta-stock h3 {
+  margin: 0 0 0.5rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--negro);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tarjeta-stock .numero-stock {
+  margin: 0;
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--azul);
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+}
+
+.tarjeta-stock .unidad-etiqueta {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #444;
+}
+
+.tarjeta-stock .nota-stock {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: #555;
+  line-height: 1.3;
+}
+
+/* Variantes visuales para las tarjetas de stock */
+.tarjeta-stock.destacado-disponible {
+  border: 2px solid var(--azul);
+  background: linear-gradient(180deg, #ffffff 0%, #f4f9e8 100%);
+}
+
+.tarjeta-stock.destacado-disponible .numero-stock {
+  color: #0b6c2c;
+}
+
+.tarjeta-stock.destacado-comprometido .numero-stock {
+  color: #b45309;
+}
+
+.tarjeta-stock.disponibilidad-porcentaje .numero-stock {
+  color: var(--azul);
+}
+
+.barra-disp-fondo {
+  width: 100%;
+  height: 9px;
+  background-color: #dbe4e8;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-top: 0.5rem;
+  border: 1px solid #bcc9cf;
+}
+
+.barra-disp-relleno {
+  height: 100%;
+  background-color: var(--verde);
+  width: 0%;
+  transition: width 0.4s ease;
+}
+
+/* Pie de página extendido */
+footer.pie-principal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+footer .enlace-pie {
+  color: var(--verde);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+footer .enlace-pie:hover {
+  color: var(--blanco);
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media (max-width: 992px) {
+  .ficha-grid {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+
+  .contenedor-imagen {
+    max-width: 380px;
+    min-height: 300px;
+    margin: 0 auto;
+  }
+
+  .resumen-stock-detalle {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .ficha-material {
+    padding: 1.25rem 1rem;
+    gap: 1.5rem;
+  }
+
+  .grilla-datos-tecnicos {
+    grid-template-columns: 1fr;
+  }
+
+  .dato-caja.ancho-completo {
+    grid-column: 1;
+  }
+
+  .resumen-stock-detalle {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .grupo-campo-selector {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

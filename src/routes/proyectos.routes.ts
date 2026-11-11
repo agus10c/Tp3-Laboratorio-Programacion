@@ -3,6 +3,7 @@ import {
   obtenerProyectos,
   obtenerProyectoPorId,
   agregarProyecto,
+  agregarMaterialAProyecto,
 } from "../controllers/proyectos.controller.js";
 
 const router = Router();
@@ -13,8 +14,10 @@ router.get("/", obtenerProyectos);
 // GET /api/proyectos/:id
 router.get("/:id", obtenerProyectoPorId);
 
-
 // POST /api/proyectos
 router.post("/", agregarProyecto);
+
+// POST /api/proyectos/:id/materiales
+router.post("/:id/materiales", agregarMaterialAProyecto);
 
 export default router;
