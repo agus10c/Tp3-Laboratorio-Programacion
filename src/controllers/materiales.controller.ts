@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
 import Material from "../models/Material.js";
+import { MATERIALES_INICIALES } from "../data/materialesIniciales.js";
 
 const CAMPOS_NUMERICOS = [
   "stockInicial",
@@ -11,6 +12,14 @@ const CAMPOS_NUMERICOS = [
 
 export const obtenerMateriales = async (req: Request, res: Response) => {
   try {
+    if (mongoose.connection.readyState !== 1) {
+      return res.json({
+        total: MATERIALES_INICIALES.length,
+        materiales: MATERIALES_INICIALES,
+        modoOffline: true,
+      });
+    }
+
     const materiales = await Material.find();
     const total = materiales.length;
 
@@ -19,16 +28,35 @@ export const obtenerMateriales = async (req: Request, res: Response) => {
       materiales,
     });
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({
-      mensaje: "Error al obtener los materiales.",
+    console.warn("Error en consulta DB, usando datos de respaldo:", error);
+    return res.json({
+      total: MATERIALES_INICIALES.length,
+      materiales: MATERIALES_INICIALES,
+      modoOffline: true,
     });
   }
 };
 
 export const obtenerMaterialPorId = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
+    const id = String(req.params.id);
+
+    if (mongoose.connection.readyState !== 1) {
+      const material = MATERIALES_INICIALES.find(
+        (m) =>
+          m._id === id ||
+          m.codigo.toLowerCase() === id.toLowerCase() ||
+          m.nombre.toLowerCase() === id.toLowerCase(),
+      );
+
+      if (!material) {
+        return res.status(404).json({
+          mensaje: "No se encontró el material solicitado.",
+        });
+      }
+
+      return res.json(material);
+    }
 
     let material = null;
 
@@ -39,6 +67,15 @@ export const obtenerMaterialPorId = async (req: Request, res: Response) => {
     }
 
     if (!material) {
+      // Buscar en datos iniciales como fallback
+      const fallback = MATERIALES_INICIALES.find(
+        (m) =>
+          m._id === id ||
+          m.codigo.toLowerCase() === id.toLowerCase() ||
+          m.nombre.toLowerCase() === id.toLowerCase(),
+      );
+      if (fallback) return res.json(fallback);
+
       return res.status(404).json({
         mensaje: "No se encontró el material solicitado.",
       });
@@ -47,6 +84,14 @@ export const obtenerMaterialPorId = async (req: Request, res: Response) => {
     return res.json(material);
   } catch (error) {
     console.error(error);
+    const id = String(req.params.id);
+    const fallback = MATERIALES_INICIALES.find(
+      (m) =>
+        m._id === id ||
+        m.codigo.toLowerCase() === id.toLowerCase(),
+    );
+    if (fallback) return res.json(fallback);
+
     return res.status(500).json({
       mensaje: "Error al obtener el material.",
     });

@@ -2,9 +2,18 @@ import { Request, Response } from "express";
 import mongoose from "mongoose";
 import Material from "../models/Material.js";
 import Proyecto from "../models/Proyecto.js";
+import { PROYECTOS_INICIALES } from "../data/materialesIniciales.js";
 
 export const obtenerProyectos = async (req: Request, res: Response) => {
   try {
+    if (mongoose.connection.readyState !== 1) {
+      return res.json({
+        total: PROYECTOS_INICIALES.length,
+        proyectos: PROYECTOS_INICIALES,
+        modoOffline: true,
+      });
+    }
+
     const proyectos = await Proyecto.find().sort({ fecha: -1 });
     const total = proyectos.length;
 
@@ -13,16 +22,30 @@ export const obtenerProyectos = async (req: Request, res: Response) => {
       proyectos,
     });
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({
-      mensaje: "Error al obtener los proyectos.",
+    console.warn("Error en consulta DB proyectos, usando datos de respaldo:", error);
+    return res.json({
+      total: PROYECTOS_INICIALES.length,
+      proyectos: PROYECTOS_INICIALES,
+      modoOffline: true,
     });
   }
 };
 
 export const obtenerProyectoPorId = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
+    const id = String(req.params.id);
+
+    if (mongoose.connection.readyState !== 1) {
+      const proyecto = PROYECTOS_INICIALES.find(
+        (p) => p._id === id || p.nombre === id,
+      );
+      if (!proyecto) {
+        return res.status(404).json({
+          mensaje: "No se encontró el proyecto solicitado.",
+        });
+      }
+      return res.json(proyecto);
+    }
 
     if (!mongoose.isValidObjectId(id)) {
       return res.status(400).json({
