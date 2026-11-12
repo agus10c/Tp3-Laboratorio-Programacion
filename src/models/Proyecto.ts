@@ -27,6 +27,7 @@ const ProyectoSchema: Schema = new Schema(
         },
       },
     ],
+    default: [],
   },
   {
     versionKey: false,
