@@ -10,13 +10,6 @@ const CAMPOS_NUMERICOS = [
   "costoUnitario",
 ] as const;
 
-const CAMPOS_NUMERICOS = [
-  "stockInicial",
-  "compras",
-  "enUso",
-  "costoUnitario",
-] as const;
-
 export const obtenerMateriales = async (req: Request, res: Response) => {
   try {
     const materiales = await Material.find();
