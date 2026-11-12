@@ -32,9 +32,6 @@ const MaterialSchema: Schema = new Schema(
     imagen: { type: String },
     descripcion: { type: String },
     proyectosAsignados: { type: String },
-    unidadPresentacion: { type: String },
-    unidadCorta: { type: String },
-    ubicacion: { type: String },
   },
   {
     versionKey: false,
