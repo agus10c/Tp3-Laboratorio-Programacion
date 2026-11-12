@@ -1,14 +1,6 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
 import Material from "../models/Material.js";
-import { MATERIALES_INICIALES } from "../data/materialesIniciales.js";
-
-const CAMPOS_NUMERICOS = [
-  "stockInicial",
-  "compras",
-  "enUso",
-  "costoUnitario",
-] as const;
 
 const CAMPOS_NUMERICOS = [
   "stockInicial",
