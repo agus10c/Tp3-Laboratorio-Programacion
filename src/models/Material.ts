@@ -13,6 +13,9 @@ export interface IMaterial extends Document {
   imagen?: string;
   descripcion?: string;
   proyectosAsignados?: string;
+  unidadPresentacion?: string;
+  unidadCorta?: string;
+  ubicacion?: string;
 }
 
 // 2. El esquema: Le dice a MongoDB cómo guardar y validar los datos
