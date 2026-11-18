@@ -1,6 +1,11 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
 import * as materialesService from "../services/materiales.service.js";
+<<<<<<< HEAD
+=======
+import Material from "../models/Material.js";
+import { MATERIALES_INICIALES } from "../data/materialesIniciales.js";
+>>>>>>> cargaStock
 
 const CAMPOS_NUMERICOS = [
   "stockInicial",

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carga de Stock</title>
+  <link rel="stylesheet" href="cargaStock.css">
+</head>
+
+<body>
+  <header class="encabezado-principal">
+    <h1>Carga de Stock - Empresa de Construcción</h1>
+  </header>
+
+  <main>
+    <form action="">
+
+      <div class="campo">
+        <label for="adhesivo-polikal">Adhesivo poliuretánico POLIKAL:</label>
+        <input type="number" id="adhesivo-polikal" name="polikal" class="producto" min="0">
+      </div>
+
+      <div class="campo">
+        <label for="adhesivo-vinilico">Adhesivo Vinílico x20 Kg:</label>
+        
+        <input type="number" id="adhesivo-vinilico" name="vinilico" class="producto" min="0">
+      </div>
+
+      <div class="campo">
+        <label for="EPS-92-20">EPS X 92-20:</label>
+        <input type="number" id="EPS-92-20" name="EPS-92-20" class="producto" min="0">
+      </div>
+
+      <div class="campo">
+        <label for="EPS-120-20">EPS X 120-20:</label>
+        <input type="number" id="EPS-120-20" name="EPS-120-20" class="producto" min="0">
+      </div>
+
+      <div class="campo">
+        <label for="membrana-acustica">Membrana acústica:</label>
+        <input type="number" id="membrana-acustica" name="membrana-acustica" class="producto" min="0">
+      </div>
+
+      <div class="campo">
+        <label for="OSB-9-5">OSB 9,5 X u:</label>
+        <input type="number" id="OSB-9-5" name="OSB-9-5" class="producto" min="0">
+      </div>
+
+      <div class="campo">
+        <label for="OSB-18-1">OSB 18,1 X u:</label>
+        <input type="number" id="OSB-18-1" name="OSB-18-1" class="producto" min="0">
+      </div>
+
+      <div class="campo">
+        <label for="SHS-3-5-40">SHS 3,5-40 x 50u:</label>
+        <input type="number" id="SHS-3-5-40" name="SHS-3-5" class="producto" min="0">
+      </div>
+
+      <div class="campo">
+        <label for="SNK-HBS-6-100">SNK-HBS 6-100 x 100u:</label>
+        <input type="number" id="SNK-HBS-6-100" name="SNK" class="producto" min="0">
+      </div>
+
+      <div class="campo">
+        <label for="tubo-poliuretanico">
+          Tubo poliuretánico 750 FISCHER:
+        </label>
+        <input
+          type="number"
+          id="tubo-poliuretanico"
+          name="tubo-poliuretanico"
+          class="producto"
+          min="0">
+      </div>
+
+      <input type="submit" value="Cargar" class="btn-cargar">
+      <script src="cargaStock.js"></script>
+    </form>
+  </main>
+
+  <footer>
+    <p>Carga de Stock · Cáceres · Antezana · Díaz</p>
+  </footer>
+</body>
+</html>
