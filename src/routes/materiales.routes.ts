@@ -8,7 +8,7 @@ import {
 
 const router = Router();
 
-// GET /api/materiales?cantidad=10&from=0
+// GET /api/materiales
 router.get("/", obtenerMateriales);
 
 // GET /api/materiales/:id
