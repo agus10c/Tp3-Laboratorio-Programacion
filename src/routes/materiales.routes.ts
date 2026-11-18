@@ -1,6 +1,6 @@
 import { Router } from "express";
 import {
-  agregarMaterial,
+  crearMaterial,
   actualizarMaterial,
   obtenerMateriales,
   obtenerMaterialPorId,
@@ -8,14 +8,14 @@ import {
 
 const router = Router();
 
-// GET /api/materiales?cantidad=10&from=0
+// GET /api/materiales
 router.get("/", obtenerMateriales);
 
 // GET /api/materiales/:id
 router.get("/:id", obtenerMaterialPorId);
 
 // POST /api/materiales
-router.post("/", agregarMaterial);
+router.post("/", crearMaterial);
 
 // PUT /api/materiales/:id
 router.put("/:id", actualizarMaterial);

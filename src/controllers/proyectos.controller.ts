@@ -47,8 +47,8 @@ export const obtenerProyectoPorId = async (req: Request, res: Response) => {
   }
 };
 
-// Agregar un proyecto
-export const agregarProyecto = async (req: Request, res: Response) => {
+// Crear un proyecto
+export const crearProyecto = async (req: Request, res: Response) => {
   try {
     const { nombre, materiales, fecha } = req.body;
 
@@ -99,7 +99,7 @@ export const agregarProyecto = async (req: Request, res: Response) => {
       }
     }
 
-    const proyecto = await proyectosService.agregarProyecto(
+    const proyecto = await proyectosService.crearProyecto(
       nombre,
       materiales,
       fecha !== undefined ? new Date(fecha) : undefined,
@@ -122,7 +122,7 @@ export const agregarProyecto = async (req: Request, res: Response) => {
     }
 
     return res.status(500).json({
-      mensaje: "Error al agregar el proyecto.",
+      mensaje: "Error al crear el proyecto.",
     });
   }
 };

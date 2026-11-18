@@ -17,8 +17,8 @@ export const obtenerProyectoPorId = async (id: string) => {
   return await Proyecto.findById(id);
 };
 
-// Agregar un proyecto
-export const agregarProyecto = async (
+// crar un proyecto nuevo en la base de datos
+export const crearProyecto = async (
   nombre: string,
   materiales: Array<{
     material: string;
