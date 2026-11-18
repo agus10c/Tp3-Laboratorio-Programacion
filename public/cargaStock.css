@@ -105,3 +105,22 @@ footer {
 
   border-top: 5px solid var(--verde);
 }
+
+@media (max-width: 760px) {
+  main {
+    width: min(100% - 1.25rem, 1200px);
+    margin-top: 1.25rem;
+  }
+
+  .resumen {
+    flex-direction: column;
+  }
+
+  .tarjeta {
+    min-height: auto;
+  }
+
+  .inventario {
+    padding: 1rem;
+  }
+}
