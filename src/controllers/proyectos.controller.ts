@@ -1,11 +1,16 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
-import * as proyectosService from "../services/proyectos.service.js";
+import {
+  obtenerProyectos as obtenerProyectosService,
+  obtenerProyectoPorId as obtenerProyectoPorIdService,
+  agregarProyecto as agregarProyectoService,
+  agregarMaterialAProyecto as agregarMaterialAProyectoService,
+} from "../services/proyectos.service.js";
 
 // Obtener todos los proyectos
 export const obtenerProyectos = async (req: Request, res: Response) => {
   try {
-    const resultado = await proyectosService.obtenerProyectos();
+    const resultado = await obtenerProyectosService();
 
     return res.status(200).json(resultado);
   } catch (error) {
@@ -29,7 +34,7 @@ export const obtenerProyectoPorId = async (req: Request, res: Response) => {
       });
     }
 
-    const proyecto = await proyectosService.obtenerProyectoPorId(id);
+    const proyecto = await obtenerProyectoPorIdService(id);
 
     if (!proyecto) {
       return res.status(404).json({
@@ -50,7 +55,7 @@ export const obtenerProyectoPorId = async (req: Request, res: Response) => {
 // Agregar un proyecto
 export const agregarProyecto = async (req: Request, res: Response) => {
   try {
-    const { nombre, materiales, fecha } = req.body;
+    const { nombre } = req.body;
 
     // Validar nombre
     if (typeof nombre !== "string" || !nombre.trim()) {
@@ -59,57 +64,7 @@ export const agregarProyecto = async (req: Request, res: Response) => {
       });
     }
 
-    // Validar fecha
-    if (
-      fecha !== undefined &&
-      (typeof fecha !== "string" || !Number.isFinite(Date.parse(fecha)))
-    ) {
-      return res.status(400).json({
-        mensaje: "La fecha del proyecto no es válida.",
-      });
-    }
-
-    // Validar materiales
-    if (!Array.isArray(materiales)) {
-      return res.status(400).json({
-        mensaje: "Los materiales deben enviarse en un array.",
-      });
-    }
-
-    // Validar cada material
-    for (const item of materiales) {
-      if (
-        !item ||
-        typeof item.material !== "string" ||
-        !mongoose.isValidObjectId(item.material)
-      ) {
-        return res.status(400).json({
-          mensaje: "El ID de uno de los materiales no es válido.",
-        });
-      }
-
-      if (
-        typeof item.cantidadUsada !== "number" ||
-        !Number.isFinite(item.cantidadUsada) ||
-        item.cantidadUsada <= 0
-      ) {
-        return res.status(400).json({
-          mensaje: "La cantidad utilizada debe ser un número mayor a cero.",
-        });
-      }
-    }
-
-    const proyecto = await proyectosService.agregarProyecto(
-      nombre,
-      materiales,
-      fecha !== undefined ? new Date(fecha) : undefined,
-    );
-
-    if (!proyecto) {
-      return res.status(404).json({
-        mensaje: "No se encontró uno de los materiales solicitados.",
-      });
-    }
+    const proyecto = await agregarProyectoService(nombre);
 
     return res.status(201).json(proyecto);
   } catch (error) {
@@ -161,7 +116,7 @@ export const agregarMaterialAProyecto = async (req: Request, res: Response) => {
       });
     }
 
-    const proyecto = await proyectosService.agregarMaterialAProyecto(
+    const proyecto = await agregarMaterialAProyectoService(
       id,
       materialId,
       cantidadUsada,
