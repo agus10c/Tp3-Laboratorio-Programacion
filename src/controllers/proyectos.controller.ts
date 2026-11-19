@@ -136,7 +136,7 @@ export const agregarMaterialAProyecto = async (req: Request, res: Response) => {
     // Validar ID del proyecto
     if (typeof id !== "string" || !mongoose.isValidObjectId(id)) {
       return res.status(400).json({
-        mensaje: "El id del material no es válido.",
+        mensaje: "El id del proyecto no es válido.",
       });
     }
 
