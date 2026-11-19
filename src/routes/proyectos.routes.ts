@@ -2,7 +2,7 @@ import { Router } from "express";
 import {
   obtenerProyectos,
   obtenerProyectoPorId,
-  agregarProyecto,
+  crearProyecto,
 } from "../controllers/proyectos.controller.js";
 
 const router = Router();
@@ -13,8 +13,7 @@ router.get("/", obtenerProyectos);
 // GET /api/proyectos/:id
 router.get("/:id", obtenerProyectoPorId);
 
-
 // POST /api/proyectos
-router.post("/", agregarProyecto);
+router.post("/", crearProyecto);
 
 export default router;

@@ -15,6 +15,11 @@ export const obtenerMaterialPorId = async (id: string) => {
   return await Material.findById(id);
 };
 
+// Crea un material en la base de datos
+export const crearMaterial = async (body: any) => {
+  return await Material.create(body);
+};
+
 // Actualizar un material
 export const actualizarMaterial = async (id: string, body: any) => {
   return await Material.findByIdAndUpdate(id, body, {
@@ -23,7 +28,16 @@ export const actualizarMaterial = async (id: string, body: any) => {
   });
 };
 
-// Agregar un material
-export const agregarMaterial = async (body: any) => {
-  return await Material.create(body);
+// Actualizar cantidad en uso de un material
+export const actualizarEnUso = async (id: string, cantidad: number) => {
+  return await Material.findByIdAndUpdate(
+    id,
+    {
+      $inc: { enUso: cantidad },
+    },
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
 };

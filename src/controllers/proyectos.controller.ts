@@ -1,16 +1,11 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
-import {
-  obtenerProyectos as obtenerProyectosService,
-  obtenerProyectoPorId as obtenerProyectoPorIdService,
-  agregarProyecto as agregarProyectoService,
-  agregarMaterialAProyecto as agregarMaterialAProyectoService,
-} from "../services/proyectos.service.js";
+import * as proyectosService from "../services/proyectos.service.js";
 
 // Obtener todos los proyectos
 export const obtenerProyectos = async (req: Request, res: Response) => {
   try {
-    const resultado = await obtenerProyectosService();
+    const resultado = await proyectosService.obtenerProyectos();
 
     return res.status(200).json(resultado);
   } catch (error) {
@@ -34,7 +29,7 @@ export const obtenerProyectoPorId = async (req: Request, res: Response) => {
       });
     }
 
-    const proyecto = await obtenerProyectoPorIdService(id);
+    const proyecto = await proyectosService.obtenerProyectoPorId(id);
 
     if (!proyecto) {
       return res.status(404).json({
@@ -52,10 +47,10 @@ export const obtenerProyectoPorId = async (req: Request, res: Response) => {
   }
 };
 
-// Agregar un proyecto
-export const agregarProyecto = async (req: Request, res: Response) => {
+// Crear un proyecto
+export const crearProyecto = async (req: Request, res: Response) => {
   try {
-    const { nombre } = req.body;
+    const { nombre, materiales, fecha } = req.body;
 
     // Validar nombre
     if (typeof nombre !== "string" || !nombre.trim()) {
@@ -64,7 +59,57 @@ export const agregarProyecto = async (req: Request, res: Response) => {
       });
     }
 
-    const proyecto = await agregarProyectoService(nombre);
+    // Validar fecha
+    if (
+      fecha !== undefined &&
+      (typeof fecha !== "string" || !Number.isFinite(Date.parse(fecha)))
+    ) {
+      return res.status(400).json({
+        mensaje: "La fecha del proyecto no es válida.",
+      });
+    }
+
+    // Validar materiales
+    if (!Array.isArray(materiales)) {
+      return res.status(400).json({
+        mensaje: "Los materiales deben enviarse en un array.",
+      });
+    }
+
+    // Validar cada material
+    for (const item of materiales) {
+      if (
+        !item ||
+        typeof item.material !== "string" ||
+        !mongoose.isValidObjectId(item.material)
+      ) {
+        return res.status(400).json({
+          mensaje: "El ID de uno de los materiales no es válido.",
+        });
+      }
+
+      if (
+        typeof item.cantidadUsada !== "number" ||
+        !Number.isFinite(item.cantidadUsada) ||
+        item.cantidadUsada <= 0
+      ) {
+        return res.status(400).json({
+          mensaje: "La cantidad utilizada debe ser un número mayor a cero.",
+        });
+      }
+    }
+
+    const proyecto = await proyectosService.crearProyecto(
+      nombre,
+      materiales,
+      fecha !== undefined ? new Date(fecha) : undefined,
+    );
+
+    if (!proyecto) {
+      return res.status(404).json({
+        mensaje: "No se encontró uno de los materiales solicitados.",
+      });
+    }
 
     return res.status(201).json(proyecto);
   } catch (error) {
@@ -77,7 +122,7 @@ export const agregarProyecto = async (req: Request, res: Response) => {
     }
 
     return res.status(500).json({
-      mensaje: "Error al agregar el proyecto.",
+      mensaje: "Error al crear el proyecto.",
     });
   }
 };
@@ -91,7 +136,7 @@ export const agregarMaterialAProyecto = async (req: Request, res: Response) => {
     // Validar ID del proyecto
     if (typeof id !== "string" || !mongoose.isValidObjectId(id)) {
       return res.status(400).json({
-        mensaje: "El id del material no es válido.",
+        mensaje: "El id del proyecto no es válido.",
       });
     }
 
@@ -116,7 +161,7 @@ export const agregarMaterialAProyecto = async (req: Request, res: Response) => {
       });
     }
 
-    const proyecto = await agregarMaterialAProyectoService(
+    const proyecto = await proyectosService.agregarMaterialAProyecto(
       id,
       materialId,
       cantidadUsada,

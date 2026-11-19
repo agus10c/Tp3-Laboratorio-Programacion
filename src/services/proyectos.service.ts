@@ -1,5 +1,6 @@
 import Material from "../models/Material.js";
 import Proyecto from "../models/Proyecto.js";
+import * as materialesService from "./materiales.service.js";
 
 // Obtener todos los proyectos
 export const obtenerProyectos = async () => {
@@ -16,12 +17,40 @@ export const obtenerProyectoPorId = async (id: string) => {
   return await Proyecto.findById(id);
 };
 
-// Agregar un proyecto
-export const agregarProyecto = async (nombre: string) => {
-  return await Proyecto.create({
+// crar un proyecto nuevo en la base de datos
+export const crearProyecto = async (
+  nombre: string,
+  materiales: Array<{
+    material: string;
+    cantidadUsada: number;
+  }> = [],
+  fecha?: Date,
+) => {
+  // Verificar que existan todos los materiales
+  for (const item of materiales) {
+    const material = await Material.findById(item.material);
+
+    if (!material) {
+      return null;
+    }
+  }
+
+  // Crear proyecto
+  const proyecto = await Proyecto.create({
     nombre: nombre.trim(),
-    materiales: [],
+    fecha,
+    materiales: materiales.map((item) => ({
+      material: item.material,
+      cantidadUsada: item.cantidadUsada,
+    })),
   });
+
+  // Actualizar cantidad en uso de cada material
+  for (const item of materiales) {
+    await materialesService.actualizarEnUso(item.material, item.cantidadUsada);
+  }
+
+  return proyecto;
 };
 
 // Agregar un material a un proyecto
@@ -53,9 +82,7 @@ export const agregarMaterialAProyecto = async (
   await proyecto.save();
 
   // Actualizar cantidad en uso del material
-  await Material.findByIdAndUpdate(materialId, {
-    $inc: { enUso: cantidadUsada },
-  });
+  await materialesService.actualizarEnUso(materialId, cantidadUsada);
 
   return proyecto;
 };

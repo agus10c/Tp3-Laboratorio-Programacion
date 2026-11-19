@@ -1,6 +1,8 @@
 // Formato de moneda
 const formatoMoneda = new Intl.NumberFormat("es-AR", {
-  style: "currency",
+  //constructor del estandar Int1, devuelve el formatedor
+  //es-AR
+  style: "currency", //moneada
   currency: "ARS",
 });
 
